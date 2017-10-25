@@ -1,19 +1,19 @@
 import React from 'react';
 import Slider from '../../external/react-viewport-slider/Slider';
+import ForceDiagram from './ForceDiagram';
 
 const wallpaper = 'http://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-164335.png';
 
 class Slides extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props);
   }
 
   render() {
       return (
         <Slider>
-          <div itemstyle={{ backgroundColor: '#a2d7c7' }}>
-            <div className="content">Hello, world.</div>
-            <div>test</div>
+          <div className="forceDiagramSlide" itemstyle={{ backgroundColor: '#a2d7c7' }}>
+            <ForceDiagram {...this.props} />
           </div>
           <div itemstyle={{ backgroundColor: '#353330' }}>
             <div className="content">Sup?</div>

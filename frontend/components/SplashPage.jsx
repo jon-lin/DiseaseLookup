@@ -7,7 +7,7 @@ import { meshDiseaseCategories } from './meshDiseaseCategories';
 class SplashPage extends React.Component {
   constructor() {
     super()
-    this.state = { diseaseSelected: "Cardiovascular Diseases" };
+    this.state = { diseaseSelected: "Animal Diseases" };
     this.changeHandler = this.changeHandler.bind(this);
   }
 

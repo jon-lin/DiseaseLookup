@@ -20,6 +20,8 @@ button, article, footer, small {
 
 /* --- CUSTOM CSS BELOW --- */
 
+/*splash page styles*/
+
 body, #root {
   width: 100%;
   height: 100vh;
@@ -113,6 +115,22 @@ body, #root {
 #submitDiseaseName:hover {
   background-color: gray;
   color: white;
+}
+
+/*slide 1 styling*/
+
+.forceDiagramSlide {
+  width: 100%;
+  height: 100%;
+}
+
+.diseaseNode {
+  cursor: pointer;
+}
+
+.nodeLabel {
+  pointer-events: none;
+  user-select: none;
 }
 
 /*credit for react-viewport-slider:
