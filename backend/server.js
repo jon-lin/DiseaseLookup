@@ -18,30 +18,29 @@ const db = require('./database.js');
 
 app.use(bodyParser.json());
 
-app.get(`/api/trialdescription/:nct_id`, db.getTrialDescription);
+app.get(`/trialdescription/:nct_id`, db.getTrialDescription);
 
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname + '/../index.html'));
 });
 
-app.get('/hi', function (req, res) {
-  // let diseaseName = req.query.inputText;
+app.get('/clinicaltrials', function (req, res) {
+  let diseaseName = req.query.diseaseName;
+  let chunk = req.query.chunk;
 
   request.get({
     url: `https://clinicaltrials.gov/ct2/results/download_fields`,
     qs: {
-      cond: "cardiovascular+disease",
+      cond: diseaseName || "cardiovascular+disease",
       down_count: "100",
       down_fmt: "xml",
       down_flds: "all",
       sfpd_s: "01/01/2015",
       sfpd_e: "12/31/2016",
-      down_chunk: "1"
-    },
-    // headers: {'Content-Type': 'text/xml'}
+      down_chunk: chunk || "1"
+    }
   },
     function (error, response, body) {
-      // console.log(StringToXML(body))
       if (error) {
         res.status(422).send('Failed to connect');
       } else {
