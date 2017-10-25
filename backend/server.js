@@ -73,22 +73,6 @@ app.get('/pubmed/articles', function (req, res) {
     });
 });
 
-function formatPubMedData(data) {
-  result = [];
-  data.PubmedArticleSet.PubmedArticle.forEach(study => {
-    let article = study.MedlineCitation[0].Article[0];
-    let pdate = article.Journal[0].JournalIssue[0].PubDate[0];
-    let date = pdate.Month[0] + " " + pdate.Year[0];
-    result.push({
-      pmid: study.MedlineCitation[0].PMID[0]["_"],
-      pubdate: date,
-      title: article.ArticleTitle[0],
-      abstract: article.Abstract[0].AbstractText[0]["_"]
-    });
-  });
-  return result;
-}
-
 app.get('/clinicaltrials', function (req, res) {
   let diseaseName = req.query.diseaseName;
   let chunk = req.query.chunk;
@@ -117,6 +101,22 @@ app.get('/clinicaltrials', function (req, res) {
     }
   );
 });
+
+function formatPubMedData(data) {
+  result = [];
+  data.PubmedArticleSet.PubmedArticle.forEach(study => {
+    let article = study.MedlineCitation[0].Article[0];
+    let pdate = article.Journal[0].JournalIssue[0].PubDate[0];
+    let date = pdate.Month[0] + " " + pdate.Year[0];
+    result.push({
+      pmid: study.MedlineCitation[0].PMID[0]["_"],
+      pubdate: date,
+      title: article.ArticleTitle[0],
+      abstract: article.Abstract[0].AbstractText[0]["_"]
+    });
+  });
+  return result;
+}
 
 function formatTrialData(data, onlyGetHits) {
   let result = [{
