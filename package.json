@@ -2,7 +2,7 @@
   "name": "diseaselookup",
   "version": "1.0.0",
   "description": "Look up research stats on diseases",
-  "main": "index.js",
+  "main": "frontend/index.jsx",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "webpack",

@@ -17,11 +17,27 @@ const db = require('./database.js');
 
 app.use(bodyParser.json());
 
-app.get(`/trialdescription/:nct_id`, db.getTrialDescription);
-
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname + '/../index.html'));
 });
+
+app.get('/frontend/bundle.js', function (req, res) {
+  res.sendFile(path.join(__dirname + '/../frontend/bundle.js'));
+});
+
+app.get('/style.css', function (req, res) {
+  res.sendFile(path.join(__dirname + '/../styles.css'));
+});
+
+// app.get('/loading.svg', function (req, res) {
+//   res.sendFile(path.join(__dirname + '/assets/loading.svg'));
+// });
+
+// app.get('/favicon.ico', function (req, res) {
+//   res.sendFile(path.join(__dirname + '/assets/favicon.ico'));
+// });
+
+app.get(`/trialdescription/:nct_id`, db.getTrialDescription);
 
 app.get('/pubmed/hits', function (req, res) {
   let diseaseName = req.query.diseaseName;
@@ -142,22 +158,6 @@ function formatTrialData(data, onlyGetHits) {
 
   return result;
 }
-
-// app.get('/bundle.js', function (req, res) {
-//   res.sendFile(path.join(__dirname + '/javascripts/bundle.js'));
-// });
-//
-// app.get('/style.css', function (req, res) {
-//   res.sendFile(path.join(__dirname + '/styles/styles.css'));
-// });
-
-// app.get('/loading.svg', function (req, res) {
-//   res.sendFile(path.join(__dirname + '/assets/loading.svg'));
-// });
-
-// app.get('/favicon.ico', function (req, res) {
-//   res.sendFile(path.join(__dirname + '/assets/favicon.ico'));
-// });
 
 const port = process.env.PORT || 8080
 app.listen(port, function () {

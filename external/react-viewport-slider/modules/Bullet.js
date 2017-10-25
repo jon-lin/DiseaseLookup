@@ -8,7 +8,7 @@ var _classnames = require('classnames');
 var PropTypes = require('prop-types');
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _react = require('react');
+var _react = require('React');
 
 var _react2 = _interopRequireDefault(_react);
 

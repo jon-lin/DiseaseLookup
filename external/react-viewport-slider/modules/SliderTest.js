@@ -10,7 +10,7 @@ var _skinDeep = require('skin-deep');
 
 var _skinDeep2 = _interopRequireDefault(_skinDeep);
 
-var _react = require('react');
+var _react = require('React');
 
 var _react2 = _interopRequireDefault(_react);
 
