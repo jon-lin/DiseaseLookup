@@ -2,7 +2,6 @@ const express = require('express');
 const path    = require('path');
 const request = require('request');
 const bodyParser = require('body-parser');
-// const X2JSLib = require('x2js');
 var parseString = require('xml2js').parseString;
 
 var expressLogging = require('express-logging');
