@@ -12,18 +12,19 @@ var app = express();
 app.use(expressLogging(logger));
 
 const router = express.Router();
-// const db = require('./database.js');
+const db = require('./database.js');
 
 // let config = process.env.keys ? JSON.parse(process.env.keys) : JSON.parse(require('./config.js'));
 
-// const app = express();
-
 app.use(bodyParser.json());
 
-// app.get(`/api/trialdescription/:nct_id`, db.getTrialDescription);
+app.get(`/api/trialdescription/:nct_id`, db.getTrialDescription);
 
 app.get('/', function (req, res) {
-  // res.sendFile(path.join(__dirname + '/../index.html'));
+  res.sendFile(path.join(__dirname + '/../index.html'));
+});
+
+app.get('/hi', function (req, res) {
   // let diseaseName = req.query.inputText;
 
   request.get({
