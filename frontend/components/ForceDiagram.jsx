@@ -5,11 +5,10 @@ import { meshCatsAndSubcats } from './meshDiseaseCategories';
 class ForceDiagram extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { diseaseName: props.match.params.diseaseName }
   }
 
   componentDidMount() {
-    let diseases = meshCatsAndSubcats[this.state.diseaseName];
+    let diseases = this.props.diseaseSubCats;
 
     let w = window.innerWidth
                 || document.documentElement.clientWidth
