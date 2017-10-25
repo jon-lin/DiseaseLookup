@@ -24,6 +24,56 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname + '/../index.html'));
 });
 
+app.get('/pubmed/hits', function (req, res) {
+  let diseaseName = req.query.diseaseName;
+  let startingIdx = req.query.startingIdx;
+
+  request.get({
+    url: `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi`,
+    qs: {
+          db: "pubmed",
+          term: "cardiovascular disease" + '[majr]' + "Journal Article[ptyp]",
+          datetype: "pdat",
+          mindate: "2015/01/01",
+          maxdate: "2016/12/31",
+          usehistory: "y",
+          sort: "pub date"
+        }
+    },
+      function (error, response, body) {
+        if (error) {
+          res.status(422).send('Failed to connect');
+        } else {
+          let queryKey = body.match(/<QueryKey>(.*?)<\/QueryKey>/)[1];
+          let WebEnv = body.match(/<WebEnv>(.*?)<\/WebEnv>/)[1];
+          let count = body.match(/<Count>(.*?)<\/Count>/)[1];
+          res.json({queryKey, WebEnv, count});
+        }
+    });
+});
+
+app.get('/pubmed/articles', function (req, res) {
+  request.get({
+    url: `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi`,
+    qs: {
+          db: "pubmed",
+          query_key: req.query.queryKey,
+          WebEnv: req.query.WebEnv,
+          retmode: "xml",
+          retmax: "5",
+          retstart: req.query.retstart,
+        }
+    },
+      function (error, response, body) {
+        if (error) {
+          res.status(422).send('Failed to connect');
+        } else {
+          console.log(typeof body);
+          res.send(body);
+        }
+    });
+});
+
 app.get('/clinicaltrials', function (req, res) {
   let diseaseName = req.query.diseaseName;
   let chunk = req.query.chunk;
