@@ -14,12 +14,14 @@
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "d3": "^4.11.0",
+    "debug": "^3.1.0",
     "express": "^4.16.2",
     "express-logging": "^1.1.1",
     "logops": "^2.1.0",
     "pg-promise": "^7.0.3",
     "request": "^2.83.0",
     "webpack": "^3.8.1",
-    "x2js": "^3.1.1"
+    "x2js": "^3.1.1",
+    "xml2js": "^0.4.19"
   }
 }

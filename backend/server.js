@@ -2,9 +2,11 @@ const express = require('express');
 const path    = require('path');
 const request = require('request');
 const bodyParser = require('body-parser');
+// const X2JSLib = require('x2js');
+var parseString = require('xml2js').parseString;
 
-var expressLogging = require('express-logging'),
-    logger = require('logops');
+var expressLogging = require('express-logging');
+var logger = require('logops');
 
 var app = express();
 app.use(expressLogging(logger));
@@ -31,20 +33,42 @@ app.get('/', function (req, res) {
       down_count: "100",
       down_fmt: "xml",
       down_flds: "all",
-      sfpd_s: "01%2F01%2F2015",
-      sfpd_e: "12%2F31%2F2016",
+      sfpd_s: "01/01/2015",
+      sfpd_e: "12/31/2016",
       down_chunk: "1"
-    }
+    },
+    // headers: {'Content-Type': 'text/xml'}
   },
     function (error, response, body) {
+      // console.log(StringToXML(body))
       if (error) {
         res.status(422).send('Failed to connect');
       } else {
-        res.send(body);
+        parseString(body, function (err, result) {
+            res.send(formatData(result));
+        });
       }
     }
   );
 });
+
+function formatData(data) {
+  let result = { hits: data.search_results["$"].count };
+  data.search_results.study.forEach(study => {
+    result[study.nct_id] = {
+      nct_id: study.nct_id[0],
+      title: study.title[0],
+      recruitment: study.recruitment[0]["_"],
+      locations: study.locations,
+      dates: {
+        first_received: study.first_received[0],
+        start_date: study.start_date[0],
+        completion_date: study.completion_date ? study.completion_date[0] : "None listed"
+      }
+    }
+  })
+  return result;
+}
 
 // app.get('/bundle.js', function (req, res) {
 //   res.sendFile(path.join(__dirname + '/javascripts/bundle.js'));
