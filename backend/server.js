@@ -26,13 +26,12 @@ app.get('/', function (req, res) {
 
 app.get('/pubmed/hits', function (req, res) {
   let diseaseName = req.query.diseaseName;
-  let startingIdx = req.query.startingIdx;
 
   request.get({
     url: `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi`,
     qs: {
           db: "pubmed",
-          term: "cardiovascular disease" + '[majr]' + "Journal Article[ptyp]",
+          term: (diseaseName || "cardiovascular disease") + '[majr]' + "Journal Article[ptyp]",
           datetype: "pdat",
           mindate: "2015/01/01",
           maxdate: "2016/12/31",
@@ -68,12 +67,28 @@ app.get('/pubmed/articles', function (req, res) {
         if (error) {
           res.status(422).send('Failed to connect');
         } else {
-          parseString(body, function (err, result) {
-              res.json(result);
+          parseString(body, function (err, data) {
+              res.send(formatPubMedData(data));
           });
         }
     });
 });
+
+function formatPubMedData(data) {
+  result = [];
+  data.PubmedArticleSet.PubmedArticle.forEach(study => {
+    let article = study.MedlineCitation[0].Article[0];
+    let pdate = article.Journal[0].JournalIssue[0].PubDate[0];
+    let date = pdate.Month[0] + " " + pdate.Year[0];
+    result.push({
+      pmid: study.MedlineCitation[0].PMID[0]["_"],
+      pubdate: date,
+      title: article.ArticleTitle[0],
+      abstract: article.Abstract[0].AbstractText[0]["_"]
+    });
+  });
+  return result;
+}
 
 app.get('/clinicaltrials', function (req, res) {
   let diseaseName = req.query.diseaseName;
@@ -96,15 +111,15 @@ app.get('/clinicaltrials', function (req, res) {
       if (error) {
         res.status(422).send('Failed to connect');
       } else {
-        parseString(body, function (err, result) {
-            res.send(formatData(result, onlyGetHits));
+        parseString(body, function (err, data) {
+            res.send(formatTrialData(data, onlyGetHits));
         });
       }
     }
   );
 });
 
-function formatData(data, onlyGetHits) {
+function formatTrialData(data, onlyGetHits) {
   let result = [{
     hits: Number(data.search_results["$"].count)
   }];
