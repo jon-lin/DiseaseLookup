@@ -3,12 +3,18 @@ const path    = require('path');
 const request = require('request');
 const bodyParser = require('body-parser');
 
+var expressLogging = require('express-logging'),
+    logger = require('logops');
+
+var app = express();
+app.use(expressLogging(logger));
+
 const router = express.Router();
 // const db = require('./database.js');
 
 // let config = process.env.keys ? JSON.parse(process.env.keys) : JSON.parse(require('./config.js'));
 
-const app = express();
+// const app = express();
 
 app.use(bodyParser.json());
 
@@ -16,8 +22,19 @@ app.use(bodyParser.json());
 
 app.get('/', function (req, res) {
   // res.sendFile(path.join(__dirname + '/../index.html'));
+  // let diseaseName = req.query.inputText;
+
   request.get({
-    url: `https://clinicaltrials.gov/ct2/results/download_fields?cond=cardiovascular+diseases&down_count=100&down_fmt=xml&down_flds=all&sfpd_s=01%2F01%2F2015&sfpd_e=12%2F31%2F2016&down_chunk=1`
+    url: `https://clinicaltrials.gov/ct2/results/download_fields`,
+    qs: {
+      cond: "cardiovascular+disease",
+      down_count: "100",
+      down_fmt: "xml",
+      down_flds: "all",
+      sfpd_s: "01%2F01%2F2015",
+      sfpd_e: "12%2F31%2F2016",
+      down_chunk: "1"
+    }
   },
     function (error, response, body) {
       if (error) {
