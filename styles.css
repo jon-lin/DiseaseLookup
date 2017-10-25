@@ -29,11 +29,25 @@ body, #root {
 #SplashPage {
   width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 600px;
+}
+
+.canvasWrapper {
+  height: 100%;
+  width: 100%;
+  position: absolute;
 }
 
 #splashTextContainer {
-  margin: 30px;
+  top: 30px;
+  left: 30px;
   color: white;
+  position: absolute;
+  z-index: 1;
 }
 
 #splashTextContainer h1 {
@@ -45,10 +59,60 @@ body, #root {
   font-size: 20px;
 }
 
+#splashCenterPanel {
+  margin-top: 130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 #diseasesDropdown {
   padding: 5px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   outline: none;
+  position: relative;
+  z-index: 1;
+  border-radius: 5px;
+}
+
+@media (min-width: 500px) {
+  #diseasesDropdown {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 850px) {
+  #diseasesDropdown {
+    font-size: 20px;
+  }
+}
+@media (min-width: 1000px) {
+  #diseasesDropdown {
+    font-size: 25px;
+  }
+}
+
+#panelTopText {
+  color: white;
+  margin-bottom: 10px;
+}
+
+#submitDiseaseName {
+  position: relative;
+  z-index: 1;
+  color: black;
+  margin-top: 10px;
+  padding: 3px 20px 3px 20px;
+  background-color: white;
+  border-radius: 10px;
+  transition: 0.2s;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+#submitDiseaseName:hover {
+  background-color: gray;
+  color: white;
 }
 
 /*credit for react-viewport-slider:
