@@ -68,8 +68,9 @@ app.get('/pubmed/articles', function (req, res) {
         if (error) {
           res.status(422).send('Failed to connect');
         } else {
-          console.log(typeof body);
-          res.send(body);
+          parseString(body, function (err, result) {
+              res.json(result);
+          });
         }
     });
 });
@@ -77,11 +78,12 @@ app.get('/pubmed/articles', function (req, res) {
 app.get('/clinicaltrials', function (req, res) {
   let diseaseName = req.query.diseaseName;
   let chunk = req.query.chunk;
+  let onlyGetHits = req.query.onlyGetHits;
 
   request.get({
     url: `https://clinicaltrials.gov/ct2/results/download_fields`,
     qs: {
-      cond: diseaseName || "cardiovascular+disease",
+      cond: diseaseName || "cardiovascular diseases",
       down_count: "100",
       down_fmt: "xml",
       down_flds: "all",
@@ -95,17 +97,23 @@ app.get('/clinicaltrials', function (req, res) {
         res.status(422).send('Failed to connect');
       } else {
         parseString(body, function (err, result) {
-            res.send(formatData(result));
+            res.send(formatData(result, onlyGetHits));
         });
       }
     }
   );
 });
 
-function formatData(data) {
-  let result = { hits: data.search_results["$"].count };
+function formatData(data, onlyGetHits) {
+  let result = [{
+    hits: Number(data.search_results["$"].count)
+  }];
+
+  if (onlyGetHits) return result;
+
   data.search_results.study.forEach(study => {
-    result[study.nct_id] = {
+    console.log(study.title[0]);
+    result.push({
       nct_id: study.nct_id[0],
       title: study.title[0],
       recruitment: study.recruitment[0]["_"],
@@ -115,8 +123,9 @@ function formatData(data) {
         start_date: study.start_date[0],
         completion_date: study.completion_date ? study.completion_date[0] : "None listed"
       }
-    }
-  })
+    });
+  });
+
   return result;
 }
 
