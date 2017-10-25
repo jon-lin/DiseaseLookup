@@ -20,6 +20,31 @@ button, article, footer, small {
 
 /* --- CUSTOM CSS BELOW --- */
 
+body, #root {
+  width: 100%;
+  height: 100vh;
+  background-color: #EF9762;
+}
+
+#SplashPage {
+  width: 100%;
+  height: 100%;
+}
+
+#splashTextContainer {
+  margin: 30px;
+  color: white;
+}
+
+#splashTextContainer h1 {
+  font-size: 50px;
+}
+
+#splashFeaturesList {
+  margin-top: 15px;
+  font-size: 20px;
+}
+
 #diseasesDropdown {
   padding: 5px;
   border: 1px solid rgba(0, 0, 0, 0.2);

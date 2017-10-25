@@ -18,8 +18,13 @@ class SplashPage extends React.Component {
 
     return (
       <div id='SplashPage'>
-        <div>
-          <h1>DiseaseLookup</h1>
+        <div id='splashTextContainer'>
+          <h1>Welcome to DiseaseLookup</h1>
+          <div id="splashFeaturesList">
+            <div>See subcategories of a disease type</div>
+            <div>Explore research stats about diseases</div>
+            <div>Learn more about clinical trials</div>
+          </div>
         </div>
 
         <select onChange={this.changeHandler} size='5' id="diseasesDropdown">
