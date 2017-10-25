@@ -1,1 +1,13 @@
 .DS_Store
+/.bundle
+bundle.js
+bundle.js.map
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+log/
+tmp/
+node_modules/
+config.js
+npm-debug.log

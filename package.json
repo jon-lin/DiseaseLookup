@@ -1,0 +1,20 @@
+{
+  "name": "diseaselookup",
+  "version": "1.0.0",
+  "description": "Look up research stats on diseases",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jon Lin",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "d3": "^4.11.0",
+    "express": "^4.16.2",
+    "pg-promise": "^7.0.3",
+    "request": "^2.83.0",
+    "webpack": "^3.8.1"
+  }
+}
