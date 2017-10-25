@@ -4,7 +4,9 @@
   "description": "Look up research stats on diseases",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "webpack",
+    "start": "node backend/server.js"
   },
   "author": "Jon Lin",
   "license": "ISC",
@@ -15,6 +17,7 @@
     "express": "^4.16.2",
     "pg-promise": "^7.0.3",
     "request": "^2.83.0",
-    "webpack": "^3.8.1"
+    "webpack": "^3.8.1",
+    "x2js": "^3.1.1"
   }
 }
