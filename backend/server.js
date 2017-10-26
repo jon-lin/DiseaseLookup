@@ -123,7 +123,10 @@ function formatPubMedData(data) {
   data.PubmedArticleSet.PubmedArticle.forEach(study => {
     let article = study.MedlineCitation[0].Article[0];
     let pdate = article.Journal[0].JournalIssue[0].PubDate[0];
-    let date = pdate.Month[0] + " " + pdate.Year[0];
+    let date = "";
+    if (pdate.Month && pdate.Year) {
+      date = pdate.Month[0] + " " + pdate.Year[0];
+    }
     result.push({
       pmid: study.MedlineCitation[0].PMID[0]["_"],
       pubdate: date,

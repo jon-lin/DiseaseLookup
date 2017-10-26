@@ -135,6 +135,7 @@ body, #root {
 
 .slideLink:hover {
   color: #0000EE;
+  cursor: pointer;
 }
 
 .slideTitleColorText {

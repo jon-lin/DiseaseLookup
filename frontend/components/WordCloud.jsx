@@ -5,7 +5,6 @@ import * as d3 from 'd3';
 class WordCloud extends React.Component {
   constructor() {
     super()
-    this.clickHandler = this.clickHandler.bind(this);
     this.state = {loading: true, retstart: 0};
   }
 
@@ -15,7 +14,8 @@ class WordCloud extends React.Component {
           queryKey, WebEnv, retstart: this.state.retstart
         }}).then(response => {
           this.setState({
-            retstart: this.state.retstart + 50
+            retstart: this.state.retstart + 50,
+            loading: false
           },
             () => this.sumUpString(response)
           );
@@ -28,12 +28,13 @@ class WordCloud extends React.Component {
   }
 
   sumUpString(response) {
-    console.log(response);
-    // let text_string = "";
-    //
-    //
-    //
-    // drawWordCloud(text_string);
+    let text_string = "";
+    response.forEach(obj => {
+      if (obj.abstract) text_string += (obj.abstract + " ");
+      if (obj.title) text_string += (obj.title + " ");
+    })
+
+    this.drawWordCloud(text_string);
   }
 
   drawWordCloud(text_string) {
@@ -73,7 +74,7 @@ class WordCloud extends React.Component {
        ])
        .range([10,100]);
 
-    cloud().size([w, h])
+    cloud().size([w - 100, h - 120])
       .timeInterval(20)
       .words(word_entries)
       .fontSize(function(d) { return xScale(+d.value); })
@@ -104,10 +105,6 @@ class WordCloud extends React.Component {
     cloud().stop();
   }
 
-  clickHandler() {
-
-  }
-
   render() {
     let diseaseName = this.props.diseaseName;
     let diseaseSpan = <span className="slideTitleColorText">
@@ -116,11 +113,12 @@ class WordCloud extends React.Component {
     let numOfArticles = <span className="slideTitleColorText">
       {this.state.retstart}</span>;
 
-    let clickSpan = <span
-      className="slideTitleColorText"
-      id="loadAbstractsWC"
-      onClick={this.clickHandler}>
-      here</span>;
+    // let clickSpan = <span
+    //     className="slideTitleColorText slideLink"
+    //     onClick={this.clickHandler}>
+    //     here</span>;
+    //
+    // Click {clickSpan} to add 50 more.
 
     let spinner = <div className='loadingDiv'><img src="./loading.svg" /></div>;
 
@@ -128,8 +126,8 @@ class WordCloud extends React.Component {
       <div className='wordCloudSlideInnerDiv'>
         <div className="slideTitleContainer" id='wcTitleContainer'>
           <div className="slideTitle">
-            A wordcloud of the abstracts of the {numOfArticles} most recent
-            PubMed articles related to {diseaseSpan}. Click {clickSpan} to add 50 more.
+            A word cloud of the titles and abstracts of the {numOfArticles} most recent
+            PubMed articles related to {diseaseSpan}.
           </div>
           {this.state.loading && spinner}
         </div>
