@@ -184,7 +184,7 @@ body, #root {
   width: 100%;
 }
 
-@media (max-width: 682px) {
+@media (max-width: 855px) {
   #barchartsSlideBottomContainer {
     flex-direction: column;
     justify-content: center;
@@ -192,11 +192,15 @@ body, #root {
   }
 
   .diseasesDropdown.barchartsPanel {
-    height: 60px;
+    height: 50px;
   }
 
-  #barchartsPanel {
-    width: auto;
+  #pubmedBarchart {
+    margin-top: 20px;
+  }
+
+  #trialsBarchart {
+    display: none;
   }
 }
 
@@ -208,7 +212,7 @@ body, #root {
 
 #instructionsToAddDisease {
   width: 350px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 #addDiseaseDropdownAndButton {
@@ -223,6 +227,8 @@ body, #root {
   flex-direction: column;
   width: calc(100% - 400px);
   position: relative;
+  max-width: 500px;
+  min-width: 350px;
 }
 
 .submitDiseaseName.barchartsPanel {
@@ -234,6 +240,11 @@ body, #root {
 #pubmedBarchart,
 #trialsBarchart {
   background-color: white;
+  border-radius: 5px;
+}
+
+#trialsBarchart {
+  margin-top: 10px;
 }
 
 /*credit for react-viewport-slider:

@@ -156,6 +156,12 @@ class ResearchBarcharts extends React.Component {
         trialsLink = <a className='slideLink trialsLink' href={trialsURL} target="_blank">clinicaltrials.gov</a>,
         loadingDiv = <div className='loadingDiv'><img src="./loading.svg" /></div>;
 
+    // $(window).resize(() => {
+    //   console.log('test');
+    //   $('#barchartsPanel').height(
+    //   $('#addDiseasePanel').height())
+    // });
+
     return (
       <div id='innerBarchartsSlideContainer'>
         <div className="slideTitleContainer">
