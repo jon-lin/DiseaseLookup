@@ -138,11 +138,22 @@ body, #root {
 }
 
 .slideTitleColorText {
-  color: red;
+  color: orange;
 }
 
 .slideTitle {
-  word-spacing: 5px;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 5px;
+  font-size: 25px;
+  font-weight: bold;
+  margin: 20px;
+  /*position: absolute;*/
+  /*top: 20px;
+  left: 20px;*/
+}
+
+#forceDiagram {
+  /*position: absolute;*/
 }
 
 /*credit for react-viewport-slider:
@@ -196,16 +207,6 @@ https://github.com/daviferreira/react-viewport-slider*/
 
 .viewport-slider-paginator-bullet.is-active {
   opacity: 1;
-}
-
-.slideTitle {
-  font-size: 25px;
-  font-weight: bold;
-  letter-spacing: -1px;
-  margin: 0;
-  position: absolute;
-  top: 20px;
-  left: 20px;
 }
 
 .has-overlay::after {

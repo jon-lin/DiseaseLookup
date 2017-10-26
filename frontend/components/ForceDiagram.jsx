@@ -14,9 +14,9 @@ class ForceDiagram extends React.Component {
                 || document.documentElement.clientWidth
                 || document.body.clientWidth;
 
-    var h = window.innerHeight
+    var h = (window.innerHeight
                 || document.documentElement.clientHeight
-                || document.body.clientHeight;
+                || document.body.clientHeight) - 200;
 
     let dataset = {
       nodes: diseases.map(cat => ({disease: cat})),
