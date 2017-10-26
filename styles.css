@@ -226,12 +226,18 @@ body, #root {
   display: flex;
   flex-direction: column;
   width: calc(100% - 400px);
+  position: relative;
 }
 
 .submitDiseaseName.barchartsPanel {
   font-size: 12px;
   padding: 1px 4px 1px 4px;
   cursor: pointer;
+}
+
+#pubmedBarchart,
+#trialsBarchart {
+  background-color: white;
 }
 
 /*credit for react-viewport-slider:

@@ -59,17 +59,80 @@ class ResearchBarcharts extends React.Component {
   }
 
   createBarcharts() {
-
+    this.createBarchart('pubmedBarchart');
+    this.createBarchart('trialsBarchart');
   }
 
-  createBarchart(domID) {
-    // let w = $('#barchartsPanel').width();
-    // let h = $('#barchartsPanel').height()/2;
+  createBarchart(svgID) {
+    let w = $('#barchartsPanel').width();
+    let h = $('#barchartsPanel').height()/2;
+    let p = {top: 35, left: 15, right: 15, bottom: 15};
 
-    // let svg = d3.select("#pubmedBarchart")
-    //             .attr("viewBox", `0 0 ${w} ${h}`);
+    let dataset = Object.values(this.dataset);
 
+    let svg = d3.select("#" + svgID)
+                .attr("viewBox", `0 0 ${w} ${h}`);
 
+    let labels = dataset.map(d => d.key);
+    let colors = d3.scaleOrdinal(d3.schemeCategory10);
+
+    let title, dataKey;
+    if (svgID === 'pubmedBarchart') {
+      title = 'Hits on PubMed';
+      dataKey = 'pubmedHits'
+    } else {
+      title = 'Hits on ClinicalTrials.gov';
+      dataKey = 'trialsHits';
+    }
+
+    //create title
+    svg.append("text")
+       .attr("x", w/2)
+       .attr("y", 20)
+       .text(title)
+       .attr("text-anchor", "middle")
+       .attr("font-family", "sans-serif")
+       .attr("font-size", "15px");
+
+    //create scales and axes
+    let xScale = d3.scaleBand()
+                   .domain(labels)
+                   .range([p.left, w - p.right])
+                   .paddingInner(0.2);
+
+    let xAxis = d3.axisBottom(xScale);
+                  // .tickSizeOuter(0)
+                  // .tickSizeInner(0);
+
+    let gx = svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(" + p.left + ",0)")
+                .call(xAxis);
+
+    let yScale = d3.scaleLinear()
+                    .domain([
+                      d3.max(dataset, d => d[dataKey]),
+                      d3.min(dataset, d => d[dataKey])
+                    ])
+                    .range([h - p.bottom, p.top]);
+
+    let yAxis = d3.axisLeft(yScale);
+
+    let gy = svg.append("g")
+                .attr("class", "y axis")
+                .attr("transform", "translate(0," + (h - p.top) + ")")
+                .call(yAxis);
+
+    let bars = svg.selectAll("rect")
+                  .data(dataset)
+                  .enter()
+                  .append("rect")
+                  .attr("x", (d, i) => xScale(labels[i]))
+                  .attr("y", h - p.bottom)
+                  .attr("width", xScale.bandwidth())
+                  .attr("height", d => h - yScale(d))
+                  .attr("fill", (d, i) => colors(i))
+                  .attr("class", "bar");
   }
 
   changeHandler() {
@@ -120,6 +183,7 @@ class ResearchBarcharts extends React.Component {
           <div id="barchartsPanel">
             <svg id="pubmedBarchart"></svg>
             <svg id="trialsBarchart"></svg>
+            {this.state.loading && loadingDiv}
           </div>
         </div>
       </div>
