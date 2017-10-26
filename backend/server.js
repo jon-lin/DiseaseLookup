@@ -127,11 +127,20 @@ function formatPubMedData(data) {
     if (pdate.Month && pdate.Year) {
       date = pdate.Month[0] + " " + pdate.Year[0];
     }
+
+    let abstract = "";
+    try {
+      abstract = article.Abstract[0].AbstractText[0]["_"];
+    } catch(e) {
+      console.log(e);
+      abstract = "";
+    }
+
     result.push({
       pmid: study.MedlineCitation[0].PMID[0]["_"],
       pubdate: date,
       title: article.ArticleTitle[0],
-      abstract: article.Abstract[0].AbstractText[0]["_"]
+      abstract
     });
   });
   return result;
