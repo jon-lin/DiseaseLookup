@@ -15,6 +15,8 @@ const Paginator = (props) => {
     zIndex: 2
   }
 
+  return null;
+
   return (
     <div className="viewport-slider-paginator" style={style}>
       {Array.from(new Array(props.bullets), (x, i) => i + 1).map((i) => {
