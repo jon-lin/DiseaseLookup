@@ -175,11 +175,16 @@ body, #root {
   .diseasesDropdown.barchartsPanel {
     height: 60px;
   }
+
+  #barchartsPanel {
+    width: auto;
+  }
 }
 
 #addDiseasePanel {
   display: flex;
   flex-direction: column;
+  width: 350px;
 }
 
 #instructionsToAddDisease {
@@ -197,6 +202,7 @@ body, #root {
 #barchartsPanel {
   display: flex;
   flex-direction: column;
+  width: calc(100% - 400px);
 }
 
 .submitDiseaseName.barchartsPanel {
@@ -226,7 +232,7 @@ https://github.com/daviferreira/react-viewport-slider*/
   color: #fff;
   cursor: pointer;
   opacity: .5;
-  padding: 12px;
+  padding: 6px;
   text-decoration: none;
   text-transform: uppercase;
   transition: opacity .35s;

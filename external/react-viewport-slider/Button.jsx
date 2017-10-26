@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 const Button = (props) => {
 
   const style = {
-    bottom: '50px',
+    bottom: '20px',
     left: '50%',
     position: 'absolute',
     transform: 'translateX(-50%)',
