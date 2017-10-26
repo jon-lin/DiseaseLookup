@@ -78,7 +78,7 @@ class ResearchBarcharts extends React.Component {
   createBarchart(svgID) {
     let w = $('#barchartsPanel').width();
     let h = $('#barchartsPanel').height()/2;
-    let p = {top: 40, left: 50, right: 15, bottom: 30};
+    let p = {top: 50, left: 50, right: 15, bottom: 30};
 
     let dataset = Object.values(this.dataset);
 
@@ -170,7 +170,7 @@ class ResearchBarcharts extends React.Component {
       let newBars = bars.enter()
                         .append("rect")
                         .attr("x", (d, i) => xScale(labels[i]))
-                        .attr("y", h - p.top)
+                        .attr("y", h - p.bottom)
                         .attr("width", xScale.bandwidth())
                         .attr("height", 0)
                         .attr("fill", (d, i) => colors(i))
@@ -189,11 +189,6 @@ class ResearchBarcharts extends React.Component {
     });
 
   }
-
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   console.log(nextProps, nextState);
-  //   // return !(nextProps.diseaseName === this.props.diseaseName);
-  // }
 
   changeHandler(e) {
     this.state.selectedDisease = e.currentTarget.value;
