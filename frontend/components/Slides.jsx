@@ -26,7 +26,8 @@ class Slides extends React.Component {
       return (
         <Slider>
 
-          <div className="slideContainer forceDiagramSlide" itemstyle={{ backgroundColor: '#a2d7c7' }}>
+          <div className="slideContainer forceDiagramSlide"
+            itemstyle={{ backgroundColor: '#a2d7c7' }}>
             <div className="slideTitleContainer">
               <div className="slideTitle">
                 {diseaseSpan} has {subcatCount} immediate {meshLink} subcategories.
@@ -36,12 +37,14 @@ class Slides extends React.Component {
             <ForceDiagram {...this.state} />
           </div>
 
-          <div className="slideContainer barchartsSlide" itemstyle={{ backgroundColor: '#353330' }}>
+          <div className="slideContainer barchartsSlide"
+            itemstyle={{ backgroundColor: '#353330' }}>
             <ResearchBarcharts diseaseName={diseaseName} />
           </div>
 
-          <div className="slideContainer barchartsSlide" itemstyle={{ backgroundColor: '#353330' }}>
-            <WordCloud />
+          <div className="slideContainer wordCloudSlide"
+            itemstyle={{ backgroundColor: '#bae1ff' }}>
+            <WordCloud diseaseName={diseaseName} />
           </div>
 
         </Slider>
