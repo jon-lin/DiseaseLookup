@@ -69,7 +69,7 @@ body, #root {
   align-items: center;
 }
 
-#diseasesDropdown {
+.diseasesDropdown {
   padding: 5px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   outline: none;
@@ -79,18 +79,18 @@ body, #root {
 }
 
 @media (min-width: 500px) {
-  #diseasesDropdown {
+  .diseasesDropdown.splash {
     font-size: 15px;
   }
 }
 
 @media (min-width: 850px) {
-  #diseasesDropdown {
+  .diseasesDropdown.splash {
     font-size: 20px;
   }
 }
 @media (min-width: 1000px) {
-  #diseasesDropdown {
+  .diseasesDropdown.splash {
     font-size: 25px;
   }
 }
@@ -100,7 +100,7 @@ body, #root {
   margin-bottom: 10px;
 }
 
-#submitDiseaseName {
+.submitDiseaseName {
   position: relative;
   z-index: 1;
   color: black;
@@ -112,14 +112,14 @@ body, #root {
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-#submitDiseaseName:hover {
+.submitDiseaseName:hover {
   background-color: gray;
   color: white;
 }
 
 /*slide 1 styling*/
 
-.forceDiagramSlide {
+.slideContainer {
   width: 100%;
   height: 100%;
 }
@@ -133,8 +133,8 @@ body, #root {
   user-select: none;
 }
 
-.meshLink:hover {
-  color: blue;
+.slideLink:hover {
+  color: #0000EE;
 }
 
 .slideTitleColorText {
@@ -147,13 +147,61 @@ body, #root {
   font-size: 25px;
   font-weight: bold;
   margin: 20px;
-  /*position: absolute;*/
-  /*top: 20px;
-  left: 20px;*/
 }
 
-#forceDiagram {
-  /*position: absolute;*/
+/*slide 2 styling*/
+
+#innerBarchartsSlideContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+#barchartsSlideBottomContainer {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+@media (max-width: 682px) {
+  #barchartsSlideBottomContainer {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .diseasesDropdown.barchartsPanel {
+    height: 60px;
+  }
+}
+
+#addDiseasePanel {
+  display: flex;
+  flex-direction: column;
+}
+
+#instructionsToAddDisease {
+  width: 350px;
+  margin-bottom: 20px;
+}
+
+#addDiseaseDropdownAndButton {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#barchartsPanel {
+  display: flex;
+  flex-direction: column;
+}
+
+.submitDiseaseName.barchartsPanel {
+  font-size: 12px;
+  padding: 1px 4px 1px 4px;
 }
 
 /*credit for react-viewport-slider:

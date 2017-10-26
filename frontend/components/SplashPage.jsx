@@ -43,14 +43,14 @@ class SplashPage extends React.Component {
 
           <select onChange={this.changeHandler}
                   size='5'
-                  id="diseasesDropdown">
+                  className="diseasesDropdown splash">
             {meshDiseaseCategories.map(disease =>
               <option key={disease}>{disease}</option>
             )}
           </select>
 
           <Link
-            id="submitDiseaseName"
+            className="submitDiseaseName"
             to={`/lookup/${this.state.diseaseSelected}`}>
             Submit
           </Link>

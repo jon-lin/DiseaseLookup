@@ -61,7 +61,7 @@ app.get('/pubmed/hits', function (req, res) {
           let queryKey = body.match(/<QueryKey>(.*?)<\/QueryKey>/)[1];
           let WebEnv = body.match(/<WebEnv>(.*?)<\/WebEnv>/)[1];
           let count = body.match(/<Count>(.*?)<\/Count>/)[1];
-          res.json({queryKey, WebEnv, count});
+          res.json({queryKey, WebEnv, count: Number(count)});
         }
     });
 });
@@ -74,7 +74,7 @@ app.get('/pubmed/articles', function (req, res) {
           query_key: req.query.queryKey,
           WebEnv: req.query.WebEnv,
           retmode: "xml",
-          retmax: "5",
+          retmax: "50",
           retstart: req.query.retstart,
         }
     },
@@ -98,7 +98,7 @@ app.get('/clinicaltrials', function (req, res) {
     url: `https://clinicaltrials.gov/ct2/results/download_fields`,
     qs: {
       cond: diseaseName || "cardiovascular diseases",
-      down_count: "100",
+      down_count: "50",
       down_fmt: "xml",
       down_flds: "all",
       sfpd_s: "01/01/2015",
@@ -142,7 +142,6 @@ function formatTrialData(data, onlyGetHits) {
   if (onlyGetHits) return result;
 
   data.search_results.study.forEach(study => {
-    console.log(study.title[0]);
     result.push({
       nct_id: study.nct_id[0],
       title: study.title[0],
