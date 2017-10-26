@@ -8,6 +8,10 @@
     "postinstall": "webpack",
     "start": "node backend/server.js"
   },
+  "engines": {
+    "node": "8.1.2",
+    "npm": "5.0.3"
+  },
   "author": "Jon Lin",
   "license": "ISC",
   "dependencies": {
