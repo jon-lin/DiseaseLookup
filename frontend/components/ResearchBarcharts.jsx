@@ -14,7 +14,7 @@ class ResearchBarcharts extends React.Component {
       }
     };
 
-    this.state = {pubmedHits: "...", trialsHits: "..."};
+    this.state = {pubmedHits: "...", trialsHits: "...", loading: true};
 
     this.barchartsInitialized = false;
   }
@@ -39,6 +39,7 @@ class ResearchBarcharts extends React.Component {
         this.updateBarcharts();
       } else {
         this.barchartsInitialized = true;
+        this.state.loading = false;
 
         this.setState({
           pubmedHits: values[0].count,
@@ -58,7 +59,17 @@ class ResearchBarcharts extends React.Component {
   }
 
   createBarcharts() {
-    console.log('hi');
+
+  }
+
+  createBarchart(domID) {
+    // let w = $('#barchartsPanel').width();
+    // let h = $('#barchartsPanel').height()/2;
+
+    // let svg = d3.select("#pubmedBarchart")
+    //             .attr("viewBox", `0 0 ${w} ${h}`);
+
+
   }
 
   changeHandler() {
@@ -76,11 +87,15 @@ class ResearchBarcharts extends React.Component {
     let trialsURL = `https://clinicaltrials.gov/`;
     let pubmedLink = <a className='slideLink pubmedLink' href={pubmedURL} target="_blank">PubMed</a>;
     let trialsLink = <a className='slideLink trialsLink' href={trialsURL} target="_blank">clinicaltrials.gov</a>;
+    let loadingDiv = <div className='loadingDiv'><img src="./loading.svg" /></div>;
 
     return (
       <div id='innerBarchartsSlideContainer'>
-        <div className="slideTitle">
-          {diseaseSpan} is a major topic of {pubmedSpan} {pubmedLink} journal articles, with {trialsSpan} clinical trials listed on {trialsLink} for {dateSpan}
+        <div className="slideTitleContainer">
+          <div className="slideTitle">
+            {diseaseSpan} is a major topic of {pubmedSpan} {pubmedLink} journal articles, with {trialsSpan} clinical trials listed on {trialsLink} for {dateSpan}
+          </div>
+          {this.state.loading && loadingDiv}
         </div>
 
         <div id='barchartsSlideBottomContainer'>

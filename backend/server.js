@@ -29,13 +29,13 @@ app.get('/style.css', function (req, res) {
   res.sendFile(path.join(__dirname + '/../styles.css'));
 });
 
-// app.get('/loading.svg', function (req, res) {
-//   res.sendFile(path.join(__dirname + '/assets/loading.svg'));
-// });
+app.get('*/loading.svg', function (req, res) {
+  res.sendFile(path.join(__dirname + '/../frontend/components/loading.svg'));
+});
 
-// app.get('/favicon.ico', function (req, res) {
-//   res.sendFile(path.join(__dirname + '/assets/favicon.ico'));
-// });
+app.get('*/favicon.ico', function (req, res) {
+  res.sendFile(path.join(__dirname + '/../favicon.ico'));
+});
 
 app.get(`/trialdescription/:nct_id`, db.getTrialDescription);
 
