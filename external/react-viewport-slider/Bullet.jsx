@@ -21,6 +21,8 @@ const Bullet = (props) => {
     { 'is-active': props.active }
   )
 
+  return null;
+
   return (
     <a href={`#viewport-slide-${props.index}`}
       className={classes}
