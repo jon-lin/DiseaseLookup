@@ -18,7 +18,8 @@ class ResearchBarcharts extends React.Component {
       pubmedHits: "...",
       trialsHits: "...",
       loading: true,
-      selectedDisease: null
+      loadingDiv: <div className='loadingDiv'><img src="./loading.svg" /></div>,
+      selectedDisease: null,
     };
 
     this.barchartsInitialized = false;
@@ -28,6 +29,10 @@ class ResearchBarcharts extends React.Component {
   }
 
   getHits(diseaseName) {
+    if (this.barchartsInitialized) {
+      $('#barchartsPanel').append(`<div class='loadingDiv jquery'><img src="./loading.svg" /></div>`);
+    }
+
     let pubReq = $.ajax('/pubmed/hits', { data: { diseaseName }});
 
     let trialReq = $.ajax('/clinicaltrials', { data: {
@@ -44,6 +49,7 @@ class ResearchBarcharts extends React.Component {
       this.dataset[diseaseName].trialsHits = values[1][0].hits;
 
       if (this.barchartsInitialized) {
+        $('.loadingDiv').remove();
         this.updateBarcharts();
       } else {
         this.barchartsInitialized = true;
@@ -197,7 +203,7 @@ class ResearchBarcharts extends React.Component {
         trialsURL = `https://clinicaltrials.gov/`,
         pubmedLink = <a className='slideLink pubmedLink' href={pubmedURL} target="_blank">PubMed</a>,
         trialsLink = <a className='slideLink trialsLink' href={trialsURL} target="_blank">clinicaltrials.gov</a>,
-        loadingDiv = <div className='loadingDiv'><img src="./loading.svg" /></div>;
+        loadingDiv = this.state.loadingDiv;
 
     return (
       <div id='innerBarchartsSlideContainer'>
