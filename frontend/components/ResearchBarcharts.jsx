@@ -14,9 +14,17 @@ class ResearchBarcharts extends React.Component {
       }
     };
 
-    this.state = {pubmedHits: "...", trialsHits: "...", loading: true};
+    this.state = {
+      pubmedHits: "...",
+      trialsHits: "...",
+      loading: true,
+      selectedDisease: null
+    };
 
     this.barchartsInitialized = false;
+
+    this.changeHandler = this.changeHandler.bind(this);
+    this.clickHander = this.clickHander.bind(this);
   }
 
   getHits(diseaseName) {
@@ -52,10 +60,6 @@ class ResearchBarcharts extends React.Component {
 
   componentDidMount() {
     this.getHits(this.props.diseaseName);
-  }
-
-  updateBarcharts() {
-
   }
 
   createBarcharts() {
@@ -101,23 +105,14 @@ class ResearchBarcharts extends React.Component {
                    .paddingInner(0.2);
 
     let xAxis = d3.axisBottom(xScale);
-                  // .tickSizeOuter(0)
-                  // .tickSizeInner(0);
 
     let gx = svg.append("g")
                 .attr("class", "x axis")
                 .attr("transform", "translate(0," + (h - p.bottom) + ")")
                 .call(xAxis);
 
-    let [min, max] = [d3.min(dataset, d => d[dataKey]),
-                      d3.max(dataset, d => d[dataKey])];
-
-    console.log(min, max);
-
-    if (min === max) { min = 0; }
-
     let yScale = d3.scaleLinear()
-                    .domain([min, max])
+                    .domain([0, d3.max(dataset, d => d[dataKey])])
                     .range([h - p.bottom, p.top]);
 
     let yAxis = d3.axisLeft(yScale);
@@ -137,10 +132,58 @@ class ResearchBarcharts extends React.Component {
                   .attr("height", d => h - p.bottom - yScale(d[dataKey]))
                   .attr("fill", (d, i) => colors(i))
                   .attr("class", "bar");
+
+    this.state[dataKey] = {w, h, p, xScale, xAxis, gx, yScale, yAxis, gy, colors};
   }
 
-  changeHandler() {
+  updateBarcharts() {
+    let dataset = Object.values(this.dataset);
+    let labels = dataset.map(d => d.key);
 
+    ['pubmedBarchart', 'trialsBarchart'].forEach(svgID => {
+      let svg = d3.select('#' + svgID);
+      let dataKey = (svgID === 'pubmedBarchart') ? 'pubmedHits' : 'trialsHits';
+      let {w, h, p, xScale, xAxis, gx, yScale, yAxis, gy, colors} = this.state[dataKey];
+
+      xScale.domain(labels);
+      yScale.domain([
+        0, d3.max(dataset, d => d[dataKey])
+      ]);
+
+      gx.transition().duration(500).call(xAxis.scale(xScale))
+      gy.transition().duration(500).call(yAxis.scale(yScale))
+
+      let bars = svg.selectAll("rect")
+                    .data(dataset);
+
+      bars.enter()
+          .append("rect")
+          .attr("x", (d, i) => xScale(labels[i]))
+          .attr("y", h - p.top)
+          .attr("width", xScale.bandwidth())
+          .attr("height", 0)
+          .attr("fill", (d, i) => colors(i))
+          .attr("class", "bar")
+          .merge(bars)
+          .transition()
+          .duration(500)
+          .attr("x", (d, i) => xScale(labels[i]))
+          .attr("y", d => yScale(d[dataKey]))
+          .attr("width", xScale.bandwidth())
+          .attr("height", d => h - p.bottom - yScale(d[dataKey]));
+    });
+
+  }
+
+  changeHandler(e) {
+    this.state.selectedDisease = e.currentTarget.value;
+  }
+
+  clickHander() {
+    if (!this.state.selectedDisease) {
+      this.state.selectedDisease = "Animal Diseases";
+    }
+    this.getHits(this.state.selectedDisease);
   }
 
   render() {
@@ -155,12 +198,6 @@ class ResearchBarcharts extends React.Component {
         pubmedLink = <a className='slideLink pubmedLink' href={pubmedURL} target="_blank">PubMed</a>,
         trialsLink = <a className='slideLink trialsLink' href={trialsURL} target="_blank">clinicaltrials.gov</a>,
         loadingDiv = <div className='loadingDiv'><img src="./loading.svg" /></div>;
-
-    // $(window).resize(() => {
-    //   console.log('test');
-    //   $('#barchartsPanel').height(
-    //   $('#addDiseasePanel').height())
-    // });
 
     return (
       <div id='innerBarchartsSlideContainer'>
@@ -186,7 +223,7 @@ class ResearchBarcharts extends React.Component {
                 )}
               </select>
 
-              <div className="submitDiseaseName barchartsPanel">Submit</div>
+              <div onClick={this.clickHander} className="submitDiseaseName barchartsPanel">Submit</div>
             </div>
           </div>
 
