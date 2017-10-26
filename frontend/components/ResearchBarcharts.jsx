@@ -66,7 +66,7 @@ class ResearchBarcharts extends React.Component {
   createBarchart(svgID) {
     let w = $('#barchartsPanel').width();
     let h = $('#barchartsPanel').height()/2;
-    let p = {top: 35, left: 15, right: 15, bottom: 15};
+    let p = {top: 40, left: 50, right: 15, bottom: 30};
 
     let dataset = Object.values(this.dataset);
 
@@ -88,7 +88,7 @@ class ResearchBarcharts extends React.Component {
     //create title
     svg.append("text")
        .attr("x", w/2)
-       .attr("y", 20)
+       .attr("y", 30)
        .text(title)
        .attr("text-anchor", "middle")
        .attr("font-family", "sans-serif")
@@ -106,21 +106,25 @@ class ResearchBarcharts extends React.Component {
 
     let gx = svg.append("g")
                 .attr("class", "x axis")
-                .attr("transform", "translate(" + p.left + ",0)")
+                .attr("transform", "translate(0," + (h - p.bottom) + ")")
                 .call(xAxis);
 
+    let [min, max] = [d3.min(dataset, d => d[dataKey]),
+                      d3.max(dataset, d => d[dataKey])];
+
+    console.log(min, max);
+
+    if (min === max) { min = 0; }
+
     let yScale = d3.scaleLinear()
-                    .domain([
-                      d3.max(dataset, d => d[dataKey]),
-                      d3.min(dataset, d => d[dataKey])
-                    ])
+                    .domain([min, max])
                     .range([h - p.bottom, p.top]);
 
     let yAxis = d3.axisLeft(yScale);
 
     let gy = svg.append("g")
                 .attr("class", "y axis")
-                .attr("transform", "translate(0," + (h - p.top) + ")")
+                .attr("transform", "translate(" + p.left + ",0)")
                 .call(yAxis);
 
     let bars = svg.selectAll("rect")
@@ -128,9 +132,9 @@ class ResearchBarcharts extends React.Component {
                   .enter()
                   .append("rect")
                   .attr("x", (d, i) => xScale(labels[i]))
-                  .attr("y", h - p.bottom)
+                  .attr("y", d => yScale(d[dataKey]))
                   .attr("width", xScale.bandwidth())
-                  .attr("height", d => h - yScale(d))
+                  .attr("height", d => h - p.bottom - yScale(d[dataKey]))
                   .attr("fill", (d, i) => colors(i))
                   .attr("class", "bar");
   }
