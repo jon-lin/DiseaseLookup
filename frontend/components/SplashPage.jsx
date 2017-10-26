@@ -1,5 +1,4 @@
 import React from 'react';
-// import DiseasesDropdown from './DiseasesDropdown';
 import { Link } from 'react-router-dom';
 import Particles from 'react-particles-js';
 import { meshDiseaseCategories } from './meshDiseaseCategories';

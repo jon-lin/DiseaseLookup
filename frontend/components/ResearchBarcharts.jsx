@@ -14,6 +14,8 @@ class ResearchBarcharts extends React.Component {
       }
     };
 
+    this.barcharts = {};
+
     this.state = {
       pubmedHits: "...",
       trialsHits: "...",
@@ -26,6 +28,10 @@ class ResearchBarcharts extends React.Component {
 
     this.changeHandler = this.changeHandler.bind(this);
     this.clickHander = this.clickHander.bind(this);
+  }
+
+  componentDidMount() {
+    this.getHits(this.props.diseaseName);
   }
 
   getHits(diseaseName) {
@@ -62,10 +68,6 @@ class ResearchBarcharts extends React.Component {
       }
 
     });
-  }
-
-  componentDidMount() {
-    this.getHits(this.props.diseaseName);
   }
 
   createBarcharts() {
@@ -142,7 +144,7 @@ class ResearchBarcharts extends React.Component {
     bars.append("title")
         .text(d => d[dataKey]);
 
-    this.state[dataKey] = {w, h, p, xScale, xAxis, gx, yScale, yAxis, gy, colors};
+    this.barcharts[dataKey] = {w, h, p, xScale, xAxis, gx, yScale, yAxis, gy, colors};
   }
 
   updateBarcharts() {
@@ -152,7 +154,7 @@ class ResearchBarcharts extends React.Component {
     ['pubmedBarchart', 'trialsBarchart'].forEach(svgID => {
       let svg = d3.select('#' + svgID);
       let dataKey = (svgID === 'pubmedBarchart') ? 'pubmedHits' : 'trialsHits';
-      let {w, h, p, xScale, xAxis, gx, yScale, yAxis, gy, colors} = this.state[dataKey];
+      let {w, h, p, xScale, xAxis, gx, yScale, yAxis, gy, colors} = this.barcharts[dataKey];
 
       xScale.domain(labels);
       yScale.domain([
@@ -188,6 +190,11 @@ class ResearchBarcharts extends React.Component {
 
   }
 
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log(nextProps, nextState);
+  //   // return !(nextProps.diseaseName === this.props.diseaseName);
+  // }
+
   changeHandler(e) {
     this.state.selectedDisease = e.currentTarget.value;
   }
@@ -202,14 +209,18 @@ class ResearchBarcharts extends React.Component {
   render() {
     let diseaseName = this.props.diseaseName,
         { pubmedHits, trialsHits } = this.state,
-        diseaseSpan = <span className="slideTitleColorText">{`"${diseaseName}"`}</span>,
-        pubmedSpan = <span className="slideTitleColorText">{pubmedHits.toLocaleString()}</span>,
-        trialsSpan = <span className="slideTitleColorText">{trialsHits.toLocaleString()}</span>,
-        dateSpan = <span className="slideTitleColorText">2015-2016</span>,
+        cl = "slideTitleColorText",
+        diseaseSpan = <span className={cl}>{`"${diseaseName}"`}</span>,
+        pubmedSpan = <span className={cl}>{pubmedHits.toLocaleString()}</span>,
+        trialsSpan = <span className={cl}>{trialsHits.toLocaleString()}</span>,
+        dateSpan = <span className={cl}>2015-2016</span>,
         pubmedURL = `https://www.ncbi.nlm.nih.gov/pubmed`,
         trialsURL = `https://clinicaltrials.gov/`,
-        pubmedLink = <a className='slideLink pubmedLink' href={pubmedURL} target="_blank">PubMed</a>,
-        trialsLink = <a className='slideLink trialsLink' href={trialsURL} target="_blank">clinicaltrials.gov</a>,
+        pubmedLink = <a className='slideLink pubmedLink'
+                        href={pubmedURL} target="_blank">PubMed</a>,
+        trialsLink = <a className='slideLink trialsLink'
+                        href={trialsURL} target="_blank">
+                        clinicaltrials.gov</a>,
         loadingDiv = this.state.loadingDiv;
 
     return (
