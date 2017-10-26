@@ -2,6 +2,7 @@ import React from 'react';
 import Slider from '../../external/react-viewport-slider/Slider';
 import ForceDiagram from './ForceDiagram';
 import ResearchBarcharts from './ResearchBarcharts';
+import WordCloud from './WordCloud';
 import { meshCatsAndSubcats } from './meshDiseaseCategories';
 
 const wallpaper = 'http://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-164335.png';
@@ -39,8 +40,8 @@ class Slides extends React.Component {
             <ResearchBarcharts diseaseName={diseaseName} />
           </div>
 
-          <div itemclass="has-overlay" itemstyle={{ backgroundImage: `url(${wallpaper})`, backgroundSize: 'cover' }}>
-            <div className="content">Yo.</div>
+          <div className="slideContainer barchartsSlide" itemstyle={{ backgroundColor: '#353330' }}>
+            <WordCloud />
           </div>
 
         </Slider>

@@ -20,7 +20,6 @@ class ResearchBarcharts extends React.Component {
       pubmedHits: "...",
       trialsHits: "...",
       loading: true,
-      loadingDiv: <div className='loadingDiv'><img src="./loading.svg" /></div>,
       selectedDisease: null,
     };
 
@@ -36,7 +35,9 @@ class ResearchBarcharts extends React.Component {
 
   getHits(diseaseName) {
     if (this.barchartsInitialized) {
-      $('#barchartsPanel').append(`<div class='loadingDiv jquery'><img src="./loading.svg" /></div>`);
+      $('#barchartsPanel').append(
+        `<div class='loadingDiv'><img src="./loading.svg" /></div>`
+      );
     }
 
     let pubReq = $.ajax('/pubmed/hits', { data: { diseaseName }});
@@ -216,15 +217,17 @@ class ResearchBarcharts extends React.Component {
         trialsLink = <a className='slideLink trialsLink'
                         href={trialsURL} target="_blank">
                         clinicaltrials.gov</a>,
-        loadingDiv = this.state.loadingDiv;
+        loadingDivTitle = <div className='loadingDiv'><img src="./loading.svg" /></div>,
+        loadingDivBarcharts = <div className='loadingDiv barcharts'><img src="./loading.svg" /></div>;
+
 
     return (
       <div id='innerBarchartsSlideContainer'>
         <div className="slideTitleContainer">
           <div className="slideTitle">
-            {diseaseSpan} is a major topic of {pubmedSpan} {pubmedLink} journal articles, with {trialsSpan} clinical trials listed on {trialsLink} for {dateSpan}
+            {diseaseSpan} is a major topic of {pubmedSpan} {pubmedLink} journal articles, with {trialsSpan} trials listed on {trialsLink} for {dateSpan}
           </div>
-          {this.state.loading && loadingDiv}
+          {this.state.loading && loadingDivTitle}
         </div>
 
         <div id='barchartsSlideBottomContainer'>
@@ -249,7 +252,7 @@ class ResearchBarcharts extends React.Component {
           <div id="barchartsPanel">
             <svg id="pubmedBarchart"></svg>
             <svg id="trialsBarchart"></svg>
-            {this.state.loading && loadingDiv}
+            {this.state.loading && loadingDivBarcharts}
           </div>
         </div>
       </div>
