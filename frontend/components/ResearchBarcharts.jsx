@@ -77,17 +77,17 @@ class ResearchBarcharts extends React.Component {
   }
 
   render() {
-    let diseaseName = this.props.diseaseName;
-    let { pubmedHits, trialsHits } = this.state;
-    let diseaseSpan = <span className="slideTitleColorText">{`"${diseaseName}"`}</span>;
-    let pubmedSpan = <span className="slideTitleColorText">{pubmedHits.toLocaleString()}</span>;
-    let trialsSpan = <span className="slideTitleColorText">{trialsHits.toLocaleString()}</span>;
-    let dateSpan = <span className="slideTitleColorText">2015-2016</span>;
-    let pubmedURL = `https://www.ncbi.nlm.nih.gov/pubmed`;
-    let trialsURL = `https://clinicaltrials.gov/`;
-    let pubmedLink = <a className='slideLink pubmedLink' href={pubmedURL} target="_blank">PubMed</a>;
-    let trialsLink = <a className='slideLink trialsLink' href={trialsURL} target="_blank">clinicaltrials.gov</a>;
-    let loadingDiv = <div className='loadingDiv'><img src="./loading.svg" /></div>;
+    let diseaseName = this.props.diseaseName,
+        { pubmedHits, trialsHits } = this.state,
+        diseaseSpan = <span className="slideTitleColorText">{`"${diseaseName}"`}</span>,
+        pubmedSpan = <span className="slideTitleColorText">{pubmedHits.toLocaleString()}</span>,
+        trialsSpan = <span className="slideTitleColorText">{trialsHits.toLocaleString()}</span>,
+        dateSpan = <span className="slideTitleColorText">2015-2016</span>,
+        pubmedURL = `https://www.ncbi.nlm.nih.gov/pubmed`,
+        trialsURL = `https://clinicaltrials.gov/`,
+        pubmedLink = <a className='slideLink pubmedLink' href={pubmedURL} target="_blank">PubMed</a>,
+        trialsLink = <a className='slideLink trialsLink' href={trialsURL} target="_blank">clinicaltrials.gov</a>,
+        loadingDiv = <div className='loadingDiv'><img src="./loading.svg" /></div>;
 
     return (
       <div id='innerBarchartsSlideContainer'>

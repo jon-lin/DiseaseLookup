@@ -26,7 +26,7 @@ class Slides extends React.Component {
         <Slider>
 
           <div className="slideContainer forceDiagramSlide" itemstyle={{ backgroundColor: '#a2d7c7' }}>
-            <div className="slideTitle">
+            <div className="slideTitle forceDiagramSlide">
               {diseaseSpan} has {subcatCount} immediate {meshLink} subcategories.
               A plus sign (+) means a category has its own subcategories.
             </div>
