@@ -139,6 +139,9 @@ class ResearchBarcharts extends React.Component {
                   .attr("fill", (d, i) => colors(i))
                   .attr("class", "bar");
 
+    bars.append("title")
+        .text(d => d[dataKey]);
+
     this.state[dataKey] = {w, h, p, xScale, xAxis, gx, yScale, yAxis, gy, colors};
   }
 
@@ -162,21 +165,25 @@ class ResearchBarcharts extends React.Component {
       let bars = svg.selectAll("rect")
                     .data(dataset);
 
-      bars.enter()
-          .append("rect")
-          .attr("x", (d, i) => xScale(labels[i]))
-          .attr("y", h - p.top)
-          .attr("width", xScale.bandwidth())
-          .attr("height", 0)
-          .attr("fill", (d, i) => colors(i))
-          .attr("class", "bar")
-          .merge(bars)
-          .transition()
-          .duration(500)
-          .attr("x", (d, i) => xScale(labels[i]))
-          .attr("y", d => yScale(d[dataKey]))
-          .attr("width", xScale.bandwidth())
-          .attr("height", d => h - p.bottom - yScale(d[dataKey]));
+      let newBars = bars.enter()
+                        .append("rect")
+                        .attr("x", (d, i) => xScale(labels[i]))
+                        .attr("y", h - p.top)
+                        .attr("width", xScale.bandwidth())
+                        .attr("height", 0)
+                        .attr("fill", (d, i) => colors(i))
+                        .attr("class", "bar");
+
+      newBars.append("title")
+             .text(d => d[dataKey]);
+
+      newBars.merge(bars)
+             .transition()
+             .duration(500)
+             .attr("x", (d, i) => xScale(labels[i]))
+             .attr("y", d => yScale(d[dataKey]))
+             .attr("width", xScale.bandwidth())
+             .attr("height", d => h - p.bottom - yScale(d[dataKey]));
     });
 
   }
