@@ -23,7 +23,8 @@ class ForceDiagram extends React.Component {
       edges: diseases.map((cat, i) => ({ source: 0, target: i }))
     };
 
-    //Initialize a simple force layout, using the nodes and edges in dataset
+    //code for force diagram based off of Scott Murray's demo in
+    //his awesome book, 'Interactive Data Visualization'
     let force = d3.forceSimulation(dataset.nodes)
             .force("charge", d3.forceManyBody().strength(-1500))
             .force("link", d3.forceLink(dataset.edges))
@@ -31,11 +32,9 @@ class ForceDiagram extends React.Component {
 
     let colors = d3.scaleOrdinal(d3.schemeCategory10);
 
-    //Select SVG element
     let svg = d3.select("#forceDiagram")
                 .attr("viewBox", `0 0 ${w} ${h}`)
 
-    //Create edges as lines
     let edges = svg.selectAll("line")
       .data(dataset.edges)
       .enter()
@@ -43,7 +42,6 @@ class ForceDiagram extends React.Component {
       .style("stroke", "#ccc")
       .style("stroke-width", 1);
 
-    //Create nodes as circles
     let nodes = svg.selectAll("circle")
       .data(dataset.nodes)
       .enter()
@@ -55,7 +53,7 @@ class ForceDiagram extends React.Component {
       .style("fill", function(d, i) {
         return colors(i);
       })
-      .call(d3.drag()  //Define what to do on drag events
+      .call(d3.drag()
         .on("start", dragStarted)
         .on("drag", dragging)
         .on("end", dragEnded));
@@ -73,7 +71,6 @@ class ForceDiagram extends React.Component {
          return i === 0 ? 16 : 12;
        });
 
-    //Every time the simulation "ticks", this will be called
     force.on("tick", function() {
 
       edges.attr("x1", function(d) { return d.source.x; })
@@ -90,7 +87,6 @@ class ForceDiagram extends React.Component {
             });
     });
 
-    //Define drag event functions
     function dragStarted(d) {
       if (!d3.event.active) force.alphaTarget(0.3).restart();
       d.fx = d.x;

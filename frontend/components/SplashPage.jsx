@@ -33,7 +33,6 @@ class SplashPage extends React.Component {
           <div id="splashFeaturesList">
             <div>See subcategories of a disease type</div>
             <div>Explore research stats</div>
-            <div>Learn more about clinical trials</div>
           </div>
         </div>
 
